@@ -7,21 +7,30 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
- * 类AddStudent，学生信息添加界面
+ * 类UpdateStudent，学生信息修改界面
+ * 有6个标签组件、6个单行文本框组件和2个按钮
  * @author Miracle_Wong
  *
  */
-public class AddStudent extends Dialog implements ActionListener  {
+public class UpdateStudent extends Dialog implements ActionListener  {
 	
-	//定义添加对话框的各个组件
+	//声明添加对话框的各个组件
 	private Panel panel1, panel2, panel3;
 	private Label label1, label2, label3, label4, label5, label6;
 	private TextField tField1,tField2,tField3,tField4,tField5,tField6;
 	private Button button1, button2;
 	
-	//Frame为父窗口，也就是对话框所处的父窗口，title为标题
-	//modal是否为模式的，如果是模式的，则必须关闭相应的对话框，否则无法操作父窗口	
-	public AddStudent(Frame owner, String title, boolean modal) {
+	/**
+	 * 创建UpdateStudent的构造函数，生成学生信息修改页面。该构造函数有以下5个参数
+	 * @param owner——Frame对象函数
+	 * @param title——对话框标题参数
+	 * @param modal——是否为模式的参数
+	 * @param model——业务处理类的对象参数
+	 * @param rowNum——表格中选中行的参数
+	 */
+	//注意这个构造方法，最后又rowNum这个被表格选定的行，以方便获取数据
+	//记得添上这一个参数StudentBiz model
+	public UpdateStudent(Frame owner, String title, boolean modal, int rowNum) {
 		super(owner, title, modal);
 		// TODO Auto-generated constructor stub
 		
@@ -48,6 +57,7 @@ public class AddStudent extends Dialog implements ActionListener  {
 		//第二个面板为GridLayout，添加各个标签
 		panel2 = new Panel();		//创建面板2
 		panel2.setLayout(new GridLayout(6,1));
+		//以下的内容需要，从业务处理类中获取数据
 		tField1 = new TextField();
 		tField2 = new TextField();
 		tField3 = new TextField();
@@ -66,7 +76,7 @@ public class AddStudent extends Dialog implements ActionListener  {
 		
 		//第三个面板，添加两个按钮
 		panel3 = new Panel();
-		button1 = new Button("确定");
+		button1 = new Button("确认修改");
 		button2 = new Button("取消");
 		button1.addActionListener(this);
 		button2.addActionListener(this);

@@ -198,8 +198,12 @@ public class MainFrame extends Frame implements ActionListener {
 	public static void main(String[]args) {
 		// TODO Auto-generated method stub
 //		new MainFrame();
+//		MainFrame mainFrame=null;
+//		AddStudent addStudent = new AddStudent(mainFrame, "添加学生", true);
+		
 		MainFrame mainFrame=null;
-		AddStudent addStudent = new AddStudent(mainFrame, "添加学生", true);
+		int row = 1;
+		UpdateStudent updateStudent = new UpdateStudent(mainFrame, "修改信息", true,row);
 	}
 
 }
