@@ -90,7 +90,7 @@ public class MainFrame extends Frame implements ActionListener {
 		// TODO Auto-generated constructor stub
 		this.setTitle("学生信息管理系统");
 		this.setSize(900, 600);
-		setLocationRelativeTo(getOwner());		//使得Frame窗口居中显示
+		/*setLocationRelativeTo(getOwner());	*/	//使得Frame窗口居中显示
 		
 		//初始化各个面板
 		pNorth = new Panel();
@@ -134,7 +134,10 @@ public class MainFrame extends Frame implements ActionListener {
 		//整个页面的属性设置
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();		//获取主显示器的大小，如1280*1024
-
+		//使得Frame窗口在屏幕居中显示
+		this.setLocation((screenSize.width - this.getWidth()) / 2,
+				(screenSize.height - this.getHeight()) / 2);
+		
 		this.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -194,7 +197,9 @@ public class MainFrame extends Frame implements ActionListener {
 	
 	public static void main(String[]args) {
 		// TODO Auto-generated method stub
-		new MainFrame();
+//		new MainFrame();
+		MainFrame mainFrame=null;
+		AddStudent addStudent = new AddStudent(mainFrame, "添加学生", true);
 	}
 
 }
