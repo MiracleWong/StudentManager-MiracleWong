@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class SqlHelper {
 	//连接数据库的信息
 	private String driver = "com.mysql.jdbc.Driver";			//MySQL驱动
-	private String url = "jdbc:mysql://localhost/db_user";	//MySQL驱动
+	private String url = "jdbc:mysql://localhost:3306/javaproject";	//MySQL驱动
 	private String username = "root";							//用户名
 	private String password = "wr";
 	//声明操作数据库的对象
@@ -103,4 +103,5 @@ public class SqlHelper {
 			e.printStackTrace();
 		} 
 	}
+	
 }

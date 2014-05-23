@@ -129,13 +129,14 @@ public class AddStudent extends Dialog implements ActionListener  {
 				
 			}
 		});
-		
+		//显示对话框
 		this.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		//如果按下的是确定按钮，执行插入SQL的语句
 		if (e.getSource() == button1) {
 			this.dispose();
 		} else if (e.getSource() ==button2) {

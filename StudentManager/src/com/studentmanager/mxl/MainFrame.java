@@ -7,6 +7,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
@@ -31,7 +32,7 @@ public class MainFrame extends Frame implements ActionListener {
 	private Button queryButton;
 	//显示数据组件
 	private JScrollPane jScrollPane;
-	
+	private StudentBiz model;
 	private JTable jTableInfo;
 	//最底部的控件
 	private Button addButton, updateButton, deleteButton;
@@ -65,6 +66,7 @@ public class MainFrame extends Frame implements ActionListener {
 		jButton1 = new JButton("添加", new ImageIcon("images/127.gif"));
 		jButton2 = new JButton("修改", new ImageIcon("images/061.gif"));
 		jButton3 = new JButton("删除", new ImageIcon("images/153.gif"));
+		//下面是用来扩展的工具，只实现页面，没实现功能。
 		jButton4 = new JButton("优惠", new ImageIcon("images/267.gif"));
 		jButton5 = new JButton("时间", new ImageIcon("images/116.gif"));
 		jButton6 = new JButton("信箱", new ImageIcon("images/199.gif"));
@@ -105,9 +107,12 @@ public class MainFrame extends Frame implements ActionListener {
 		pNorth.add(pNorthTop,BorderLayout.NORTH);
 		
 		//上层面板的下部查询组件
-		queryLabel = new Label("摄入姓名");
+		queryLabel = new Label("输入姓名");
 		queryTextField = new TextField(20);
 		queryButton = new Button("查询");
+		
+		//为queryButton加入监听器
+		queryButton.addActionListener(this);
 		
 		pNorthBottom.add(queryLabel);
 		pNorthBottom.add(queryTextField);
@@ -116,11 +121,19 @@ public class MainFrame extends Frame implements ActionListener {
 		pNorth.add(pNorthBottom,BorderLayout.SOUTH);
 		this.add(pNorth,BorderLayout.NORTH);
 		//中部的表格组件
-		
+		model = new StudentBiz();
+		String sql = "select * from db_student where 0=?";
+		String[] params = new String[] {"0"};
+		model.queryStudent(sql, params);	//将查询到的数据放入表格模型
+		jTableInfo = new JTable(model);		//将表格模型放入到表格中
+		jTableInfo.setRowHeight(25);
+		jScrollPane = new JScrollPane(jTableInfo);
+		this.add(jScrollPane, BorderLayout.CENTER);
 		//底部的增加、修改、删除控件，并添加到面板
 		addButton = new Button("添加");
 		updateButton = new Button("修改");
 		deleteButton = new Button("删除");
+		//添加监听器
 		addButton.addActionListener(this);
 		updateButton.addActionListener(this);
 		deleteButton.addActionListener(this);
@@ -190,20 +203,69 @@ public class MainFrame extends Frame implements ActionListener {
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		//处理按钮事件
+		if (e.getSource() == queryButton) {
+			String jtfValue = queryTextField.getText().trim();
+			//假如查询的时候输入的是空字符串，查询所有数据
+			if (jtfValue.equals("")) {
+				String sql = "select * from db_student where 1=?";
+				String[] params = new String[] {"1"};
+				model = new StudentBiz();
+				model.queryStudent(sql, params);
+				jTableInfo.setModel(model);
+			} else {
+				//如果查询的时候输入了字符串
+				String sql = "select * from db_student where stuName=?";
+				String[] params = new String[] {jtfValue};
+				model = new StudentBiz();
+				model.queryStudent(sql, params);
+				jTableInfo.setModel(model);
+			}
+		}
+		//处理添加按钮事件
+		//单击的是菜单栏中的添加按钮或工具栏中的底部中的添加按钮
+		else if (e.getSource() == addButton || e.getSource() == mItem1 || e.getSource() == jButton1 ) {
+			AddStudent addStudent = new AddStudent(this, "添加学生", true);		//弹出对话框
+			String sql = "select * from db_student where 1=?";
+			String[] params = new String[] {"1"};
+			model = new StudentBiz();
+			model.queryStudent(sql, params);
+			jTableInfo.setModel(model);
+		}
+		//处理修改按钮事件
+		else if (e.getSource() == updateButton || e.getSource() == mItem2 || e.getSource() == jButton2 ) {
+			//获取选中的数据行
+			int rowNum = this.jTableInfo.getRowCount();
+			System.out.println(rowNum);
+			if (rowNum == -1) {
+				JOptionPane.showMessageDialog(this, "请选择一行修改");
+				return;
+			} else {
+				UpdateStudent updateStudent = new UpdateStudent(this, "修改学生信息", true, rowNum);
+				String sql = "select * from db_student where 1=?";
+				String[] params = new String[] {"1"};
+				model = new StudentBiz();
+				model.queryStudent(sql, params);
+				jTableInfo.setModel(model);
+			}
+		}
+		
+		
 		
 	}	
 	
 	public static void main(String[]args) {
 		// TODO Auto-generated method stub
-//		new MainFrame();
+		new MainFrame();
 //		MainFrame mainFrame=null;
 //		AddStudent addStudent = new AddStudent(mainFrame, "添加学生", true);
 		
-		MainFrame mainFrame=null;
-		int row = 1;
-		UpdateStudent updateStudent = new UpdateStudent(mainFrame, "修改信息", true,row);
+//		MainFrame mainFrame=null;
+//		int row = 1;
+//		UpdateStudent updateStudent = new UpdateStudent(mainFrame, "修改信息", true,row);
 	}
 
 }
