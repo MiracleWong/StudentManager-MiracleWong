@@ -30,7 +30,7 @@ public class UpdateStudent extends Dialog implements ActionListener  {
 	 */
 	//注意这个构造方法，最后又rowNum这个被表格选定的行，以方便获取数据
 	//记得添上这一个参数StudentBiz model
-	public UpdateStudent(Frame owner, String title, boolean modal, int rowNum) {
+	public UpdateStudent(Frame owner, String title, boolean modal, StudentBiz model, int rowNum) {
 		super(owner, title, modal);
 		// TODO Auto-generated constructor stub
 		
@@ -54,16 +54,19 @@ public class UpdateStudent extends Dialog implements ActionListener  {
 		//将面板1容器组件放置于窗口的左边
 		this.add(panel1, BorderLayout.WEST);
 		
-		//第二个面板为GridLayout，添加各个标签
+		//第二个面板放置文本框
 		panel2 = new Panel();		//创建面板2
 		panel2.setLayout(new GridLayout(6,1));
-		//以下的内容需要，从业务处理类中获取数据
-		tField1 = new TextField();
-		tField2 = new TextField();
-		tField3 = new TextField();
-		tField4 = new TextField();
-		tField5 = new TextField();
-		tField6 = new TextField();
+		/*从业务处理类中获取数据*/
+		//调用业务类中的getValueAt()方法，获取指定行的第一列的值，即学号
+		tField1 = new TextField((String)model.getValueAt(rowNum, 0));
+		//设置学号的文本框处于不可编辑状态
+		tField1.setEditable(false);
+		tField2 = new TextField((String)model.getValueAt(rowNum, 1));
+		tField3 = new TextField((String)model.getValueAt(rowNum, 2));
+		tField4 = new TextField(model.getValueAt(rowNum, 3).toString());
+		tField5 = new TextField((String)model.getValueAt(rowNum, 4));
+		tField6 = new TextField((String)model.getValueAt(rowNum, 5));
 		//将6个文本框组件放置于面板2的容器中
 		panel2.add(tField1);
 		panel2.add(tField2);
@@ -146,9 +149,20 @@ public class UpdateStudent extends Dialog implements ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		//如果按下的是确认修改按钮
 		if (e.getSource() == button1) {
+			String sql = "update tb_student set stuName = ?, stuSex = ?, stuAge = ?,"
+					+ "stuDept = ?,stuAddress = ? where stuId = ?";
+			String[] params = new String[] {tField2.getText().trim(),
+					tField3.getText().trim(),tField4.getText().trim(),
+					tField5.getText().trim(),tField6.getText().trim(),
+					tField1.getText().trim()};
+			StudentBiz myModel = new StudentBiz();
+			myModel.updateStu(sql, params);		//执行修改操作
 			this.dispose();
-		} else if (e.getSource() ==button2) {
+		}
+		//如果按下的是取消按钮
+		else if (e.getSource() ==button2) {
 			this.dispose();
 		}
 	}

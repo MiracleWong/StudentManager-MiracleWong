@@ -138,6 +138,13 @@ public class AddStudent extends Dialog implements ActionListener  {
 		// TODO Auto-generated method stub
 		//如果按下的是确定按钮，执行插入SQL的语句
 		if (e.getSource() == button1) {
+			StudentBiz model = new StudentBiz();		//实例化业务处理类
+			String sql = "insert into tb_student values(?,?,?,?,?,?)";
+			String[] params = new String[] {tField1.getText().trim(),
+					tField2.getText().trim(),tField3.getText().trim(),
+					tField4.getText().trim(),tField5.getText().trim(),
+					tField6.getText().trim()};
+			model.updateStu(sql, params);
 			this.dispose();
 		} else if (e.getSource() ==button2) {
 			this.dispose();

@@ -122,7 +122,7 @@ public class MainFrame extends Frame implements ActionListener {
 		this.add(pNorth,BorderLayout.NORTH);
 		//中部的表格组件
 		model = new StudentBiz();
-		String sql = "select * from db_student where 0=?";
+		String sql = "select * from tb_student where 0=?";
 		String[] params = new String[] {"0"};
 		model.queryStudent(sql, params);	//将查询到的数据放入表格模型
 		jTableInfo = new JTable(model);		//将表格模型放入到表格中
@@ -211,14 +211,14 @@ public class MainFrame extends Frame implements ActionListener {
 			String jtfValue = queryTextField.getText().trim();
 			//假如查询的时候输入的是空字符串，查询所有数据
 			if (jtfValue.equals("")) {
-				String sql = "select * from db_student where 1=?";
+				String sql = "select * from tb_student where 1=?";
 				String[] params = new String[] {"1"};
 				model = new StudentBiz();
 				model.queryStudent(sql, params);
 				jTableInfo.setModel(model);
 			} else {
 				//如果查询的时候输入了字符串
-				String sql = "select * from db_student where stuName=?";
+				String sql = "select * from tb_student where stuName=?";
 				String[] params = new String[] {jtfValue};
 				model = new StudentBiz();
 				model.queryStudent(sql, params);
@@ -229,7 +229,7 @@ public class MainFrame extends Frame implements ActionListener {
 		//单击的是菜单栏中的添加按钮或工具栏中的底部中的添加按钮
 		else if (e.getSource() == addButton || e.getSource() == mItem1 || e.getSource() == jButton1 ) {
 			AddStudent addStudent = new AddStudent(this, "添加学生", true);		//弹出对话框
-			String sql = "select * from db_student where 1=?";
+			String sql = "select * from tb_student where 1=?";
 			String[] params = new String[] {"1"};
 			model = new StudentBiz();
 			model.queryStudent(sql, params);
@@ -238,34 +238,48 @@ public class MainFrame extends Frame implements ActionListener {
 		//处理修改按钮事件
 		else if (e.getSource() == updateButton || e.getSource() == mItem2 || e.getSource() == jButton2 ) {
 			//获取选中的数据行
-			int rowNum = this.jTableInfo.getRowCount();
+			int rowNum = this.jTableInfo.getSelectedRow();
 			System.out.println(rowNum);
 			if (rowNum == -1) {
 				JOptionPane.showMessageDialog(this, "请选择一行修改");
 				return;
 			} else {
-				UpdateStudent updateStudent = new UpdateStudent(this, "修改学生信息", true, rowNum);
-				String sql = "select * from db_student where 1=?";
-				String[] params = new String[] {"1"};
+				UpdateStudent updateStudent = new UpdateStudent(this, "修改学生信息", true, model,rowNum);
 				model = new StudentBiz();
+				String sql = "select * from tb_student where 1=?";
+				String[] params = new String[] {"1"};
 				model.queryStudent(sql, params);
 				jTableInfo.setModel(model);
 			}
 		}
-		
-		
-		
+		//处理删除按钮事件
+		else if (e.getSource() == deleteButton || e.getSource() == mItem3 || e.getSource() == jButton3 ) {
+			//获取选中的数据行
+			int rowNum = this.jTableInfo.getSelectedRow();
+			System.out.println(rowNum);
+			if (rowNum == -1) {
+				JOptionPane.showMessageDialog(this, "请选择一行修改");
+				return;
+			} else {
+				String sql = "delete from tb_student where stuId=?";
+				String stuId =(String)this.jTableInfo.getValueAt(rowNum, 0);
+				String[] params = new String[] {stuId};
+				StudentBiz myModel = new StudentBiz();
+				myModel.updateStu(sql, params);				//执行删除语句
+				
+				//重新获得新的数据模型
+				model = new StudentBiz();
+				String sql2 = "select * from tb_student where 1=?";
+				String[] params2 = new String[] {"1"};
+				model.queryStudent(sql2, params2);
+				jTableInfo.setModel(model);
+			}
+		}
 	}	
 	
 	public static void main(String[]args) {
 		// TODO Auto-generated method stub
 		new MainFrame();
-//		MainFrame mainFrame=null;
-//		AddStudent addStudent = new AddStudent(mainFrame, "添加学生", true);
-		
-//		MainFrame mainFrame=null;
-//		int row = 1;
-//		UpdateStudent updateStudent = new UpdateStudent(mainFrame, "修改信息", true,row);
 	}
 
 }

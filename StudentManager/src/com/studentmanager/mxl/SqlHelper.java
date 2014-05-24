@@ -17,7 +17,7 @@ public class SqlHelper {
 	private String driver = "com.mysql.jdbc.Driver";			//MySQL驱动
 	private String url = "jdbc:mysql://localhost:3306/javaproject";	//MySQL驱动
 	private String username = "root";							//用户名
-	private String password = "wr";
+	private String password = "**";
 	//声明操作数据库的对象
 	Connection connection = null;			
 	private PreparedStatement ps = null;
