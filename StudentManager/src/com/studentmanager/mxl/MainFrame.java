@@ -18,7 +18,7 @@ public class MainFrame extends Frame implements ActionListener {
 	南边（下方）放置操作按钮*/
 	
 	//各个面板
-	private Panel pNorth,pNorthTop,pNorthBottom,pSouth;
+	private Panel pNorth,pNorthTop,pNorthBottom,pSouth,pSouthTop,pSouthBottom;
 	//菜单栏的相关控件
 	private MenuBar menuBar;
 	private Menu menu1,menu2;
@@ -129,6 +129,14 @@ public class MainFrame extends Frame implements ActionListener {
 		jTableInfo.setRowHeight(25);
 		jScrollPane = new JScrollPane(jTableInfo);
 		this.add(jScrollPane, BorderLayout.CENTER);
+		
+		
+		
+
+/*		SinPanel sinPanel = new SinPanel();
+		this.add(sinPanel, BorderLayout.CENTER);*/
+		
+		
 		//底部的增加、修改、删除控件，并添加到面板
 		addButton = new Button("添加");
 		updateButton = new Button("修改");
