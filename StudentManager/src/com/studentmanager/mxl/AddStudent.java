@@ -8,7 +8,7 @@ import java.awt.event.WindowListener;
 
 /**
  * 类AddStudent，学生信息添加界面
- * @author Miracle_Wong
+ * @author MiracleWong
  *
  */
 public class AddStudent extends Dialog implements ActionListener  {

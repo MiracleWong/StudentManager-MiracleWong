@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * 创建SqlHelper类
  * 功能:实现与数据库的连接，并操作数据库(增、删、改、查)
- * @author Miracle_Wong
+ * @author MiracleWong
  *
  */
 public class SqlHelper {
@@ -17,7 +17,7 @@ public class SqlHelper {
 	private String driver = "com.mysql.jdbc.Driver";			//MySQL驱动
 	private String url = "jdbc:mysql://localhost:3306/javaproject";	//MySQL驱动
 	private String username = "root";							//用户名
-	private String password = "**";
+	private String password = "123456";
 	//声明操作数据库的对象
 	Connection connection = null;			
 	private PreparedStatement ps = null;

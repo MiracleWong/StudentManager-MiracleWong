@@ -11,6 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+/**
+ * 主函数
+ * @author MiracleWong
+ *
+ */
 public class MainFrame extends Frame implements ActionListener {
 	
 	/*整个界面是BorderLayout的布局，
